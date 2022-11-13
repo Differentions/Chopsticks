@@ -70,6 +70,7 @@ local function startingChopsticks()
 end
 
 local function getInput()
+    print("Input your choice:")
     local playerInput = io.read("*number")
     if playerInput == 1 then
         if botLeftHand == 0 then
@@ -99,7 +100,23 @@ local function getInput()
         else
             botRightHand = (botRightHand + playerRightHand)
         end
+    elseif playerInput == 5 then
+        local playerHands = (playerLeftHand + playerRightHand)
+        print(line)
+        print("Fingers you have left:".. space .. playerHands)
+        print("Choose left hand amount:")
+        local leftHandSplit = io.read("*number")
+        print(line)
+        print("Choose right hand amount:")
+        playerLeftHand = leftHandSplit
+        leftHandSplit = 0
+        playerRightHand = (playerHands - leftHandSplit)
+        if playerRightHand < 0 then
+            playerRightHand = 0
+        end 
+        playerHands = 0
     end
+    print(line)
 end
 
 local function Chopsticks()
@@ -117,6 +134,7 @@ local function Chopsticks()
     print("2: Attack left hand with right hand")
     print("3: Attack right hand with left hand")
     print("4: Attack right hand with right hand")
+    print("5: Split fingers")
     print(line)
 end
 
@@ -175,19 +193,42 @@ randBotMove()
 while true do 
     Chopsticks()
     if botLeftHand and botRightHand == 0  then 
+        print("Bot's Chopsticks:")
+        io.write(botLeftHand)
+        io.write(space)
+        io.write(botRightHand) 
+        print(space)
         print("You won!")
+        print(line)
         os.exit()
-    elseif playerLeftHand and playerRightHand == 0 then 
+    elseif (playerLeftHand + playerRightHand) == 0 then 
+        print("Your Chopsticks:")
+        io.write(playerLeftHand)
+        io.write(space)
+        io.write(playerRightHand)
+        print("You lost!")
         print("You lost!")
         os.exit()
     end
     getInput()
+    checkForExceededFingers()
     randBotMove() 
-    if botLeftHand and botRightHand == 0  then 
+    if botLeftHand + botRightHand == 0  then
+        print("Bot's Chopsticks:")
+        io.write(botLeftHand)
+        io.write(space)
+        io.write(botRightHand) 
+        print(space)
         print("You won!")
+        print(line)
         os.exit()
-    elseif playerLeftHand and playerRightHand == 0 then 
+    elseif playerLeftHand + playerRightHand == 0 then 
+        print("Your Chopsticks:")
+        io.write(playerLeftHand)
+        io.write(space)
+        io.write(playerRightHand)
         print("You lost!")
+        print(line)
         os.exit()
     end
     checkForExceededFingers()
