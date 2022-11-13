@@ -24,7 +24,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]--
 
+-- Miscellaneous Assignments
 
+math.randomseed(os.time()) 
 
 -- Bot Finger Variables
 
@@ -36,14 +38,14 @@ local botRightHand = (1)
 local playerLeftHand = (1)
 local playerRightHand = (1)
 
+-- Random AI Variables
+
+local botRandMove = math.random(1, 4)
+
 -- Miscellaneous Variables
 
 local line = ("----------------------------------------------------------------")
 local space = (" ")
-
--- Miscellaneous Assignments
-
-math.randomseed(os.time()) 
 
 -- Main Functions
 
@@ -70,13 +72,33 @@ end
 local function getInput()
     local playerInput = io.read("*number")
     if playerInput == 1 then
-        botLeftHand = (botLeftHand + playerLeftHand)
+        if botLeftHand == 0 then
+            print("Not a valid option!")
+            return
+        else
+            botLeftHand = (botLeftHand + playerLeftHand)
+        end
     elseif playerInput == 2 then
-        botLeftHand = (botLeftHand + playerRightHand)
+        if botLeftHand == 0 then 
+            print("Not a valid option!")
+            return
+        else
+            botLeftHand = (botLeftHand + playerRightHand)
+        end
     elseif playerInput == 3 then
-        botRightHand = (botRightHand + playerLeftHand)
+        if botRightHand == 0 then
+            print("Not a valid option!")
+            return
+        else
+            botRightHand = (botRightHand + playerLeftHand)
+        end
     elseif playerInput == 4 then
-        botRightHand = (botRightHand + playerRightHand)
+        if botRightHand == 0 then
+            print("Not a valid option!")
+            return
+        else
+            botRightHand = (botRightHand + playerRightHand)
+        end
     end
 end
 
@@ -113,10 +135,41 @@ local function checkForExceededFingers()
     end 
 end
 
+-- Random AI Functions
+
+local function randBotMove()    
+    if botRandMove == 1 then
+        if playerLeftHand == 0 then 
+            return
+        else
+            playerLeftHand = (playerLeftHand + botLeftHand)
+        end
+    elseif botRandMove == 2 then
+        if playerLeftHand == 0 then 
+            return
+        else
+            playerLeftHand = (playerLeftHand + botRightHand)
+        end
+    elseif botRandMove == 3 then
+        if playerRightHand == 0 then
+            return
+        else
+            playerRightHand = (playerRightHand + botLeftHand)
+        end
+    elseif botRandMove == 4 then
+        if playerRightHand == 0 then
+            return
+        else
+            playerRightHand = (playerRightHand + botRightHand)
+        end
+    end  
+end
+
 -- Starting Functions
 
 startingChopsticks()
 getInput()
+randBotMove()
 
 -- Game Loop 
 while true do 
@@ -128,6 +181,14 @@ while true do
         print("You lost!")
         os.exit()
     end
-    getInput() 
+    getInput()
+    randBotMove() 
+    if botLeftHand and botRightHand == 0  then 
+        print("You won!")
+        os.exit()
+    elseif playerLeftHand and playerRightHand == 0 then 
+        print("You lost!")
+        os.exit()
+    end
     checkForExceededFingers()
 end
