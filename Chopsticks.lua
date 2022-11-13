@@ -192,7 +192,7 @@ randBotMove()
 -- Game Loop 
 while true do 
     Chopsticks()
-    if botLeftHand and botRightHand == 0  then 
+    if (botLeftHand + botRightHand) == 0  then 
         print("Bot's Chopsticks:")
         io.write(botLeftHand)
         io.write(space)
@@ -213,7 +213,7 @@ while true do
     getInput()
     checkForExceededFingers()
     randBotMove() 
-    if botLeftHand + botRightHand == 0  then
+    if (botLeftHand + botRightHand) == 0  then
         print("Bot's Chopsticks:")
         io.write(botLeftHand)
         io.write(space)
@@ -222,7 +222,7 @@ while true do
         print("You won!")
         print(line)
         os.exit()
-    elseif playerLeftHand + playerRightHand == 0 then 
+    elseif (playerLeftHand + playerRightHand) == 0 then 
         print("Your Chopsticks:")
         io.write(playerLeftHand)
         io.write(space)
