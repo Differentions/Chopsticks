@@ -25,6 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]--
 
 
+
 -- Bot Finger Variables
 
 local botLeftHand = (1)
@@ -38,9 +39,95 @@ local playerRightHand = (1)
 -- Miscellaneous Variables
 
 local line = ("----------------------------------------------------------------")
+local space = (" ")
+
+-- Miscellaneous Assignments
+
+math.randomseed(os.time()) 
 
 -- Main Functions
 
-local startingChopsticks()
+local function startingChopsticks()
     print(line)
-    print()
+    print("Welcome to chopsticks!")
+    print("Bot's Chopsticks:")
+    io.write(botLeftHand)
+    io.write(space)
+    io.write(botRightHand)
+    print(space)
+    print("Your Chopsticks:")
+    io.write(playerLeftHand)
+    io.write(space)
+    io.write(playerRightHand)
+    print(space)
+    print("1: Attack left hand with left hand")
+    print("2: Attack left hand with right hand")
+    print("3: Attack right hand with left hand")
+    print("4: Attack right hand with right hand")
+    print(line)
+end
+
+local function getInput()
+    local playerInput = io.read("*number")
+    if playerInput == 1 then
+        botLeftHand = (botLeftHand + playerLeftHand)
+    elseif playerInput == 2 then
+        botLeftHand = (botLeftHand + playerRightHand)
+    elseif playerInput == 3 then
+        botRightHand = (botRightHand + playerLeftHand)
+    elseif playerInput == 4 then
+        botRightHand = (botRightHand + playerRightHand)
+    end
+end
+
+local function Chopsticks()
+    print("Bot's Chopsticks:")
+    io.write(botLeftHand)
+    io.write(space)
+    io.write(botRightHand)
+    print(space)
+    print("Your Chopsticks:")
+    io.write(playerLeftHand)
+    io.write(space)
+    io.write(playerRightHand)
+    print(space)
+    print("1: Attack left hand with left hand")
+    print("2: Attack left hand with right hand")
+    print("3: Attack right hand with left hand")
+    print("4: Attack right hand with right hand")
+    print(line)
+end
+
+local function checkForExceededFingers()
+    if playerLeftHand >= 5 then 
+        playerLeftHand = 0
+    end 
+    if playerRightHand >= 5 then 
+        playerRightHand = 0
+    end 
+    if botLeftHand >= 5 then 
+        botLeftHand = 0
+    end 
+    if botRightHand >= 5 then 
+        botRightHand = 0
+    end 
+end
+
+-- Starting Functions
+
+startingChopsticks()
+getInput()
+
+-- Game Loop 
+while true do 
+    Chopsticks()
+    if botLeftHand and botRightHand == 0  then 
+        print("You won!")
+        os.exit()
+    elseif playerLeftHand and playerRightHand == 0 then 
+        print("You lost!")
+        os.exit()
+    end
+    getInput() 
+    checkForExceededFingers()
+end
